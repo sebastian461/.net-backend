@@ -1,9 +1,12 @@
 using Backend.Services;
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddSingleton<IPeopleService, PeopleTwoService>(); //Esto es inyección de dependencias
+//builder.Services.AddSingleton<IPeopleService, PeopleTwoService>(); Esto es inyección de dependencias
+builder.Services.AddKeyedSingleton<IPeopleService, PeopleService>("peopleService"); //Tambien se pueden usar keys en caso de tener varias dependencias
+builder.Services.AddKeyedSingleton<IPeopleService, PeopleTwoService>("peopleTwoService");
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

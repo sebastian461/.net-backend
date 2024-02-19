@@ -18,7 +18,15 @@ namespace Backend.Controllers
             _peopleService = new PeopleService();
         }*/
 
-        public PeopleController(IPeopleService peopleService)
+        /* Este sería el construcctor con el uso de una dependencia sin key
+         * C# internamente sabe que debe hacer uso de la inyección de dependencias
+        public PeopleController(IPeopleService peopleService) 
+        {
+            _peopleService = peopleService;
+        } */
+
+        //Constructor con el uso de dependencia con una key
+        public PeopleController([FromKeyedServices("peopleService")]IPeopleService peopleService)
         {
             _peopleService = peopleService;
         }
