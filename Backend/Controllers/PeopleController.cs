@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Backend.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Backend.Controllers
@@ -7,6 +8,21 @@ namespace Backend.Controllers
     [ApiController]
     public class PeopleController : ControllerBase
     {
+        private IPeopleService _peopleService;
+
+        /* Esto está mal, porque si la clase cambia la manera en la que se construye
+         * se debe actualizar en cada lugar que se haga uso de la clase
+         * por eso se hace uso de la inyección de dependecias en el archivo "Program"
+        public PeopleController()
+        {
+            _peopleService = new PeopleService();
+        }*/
+
+        public PeopleController(IPeopleService peopleService)
+        {
+            _peopleService = peopleService;
+        }
+
         [HttpGet("all")]
         public List<People> GetPeople() => Repository.People;
 
@@ -34,7 +50,7 @@ namespace Backend.Controllers
         [HttpPost]
         public IActionResult Add(People people) 
         {
-            if (string.IsNullOrEmpty(people.Name)) //Nulo o vacio
+            if (!_peopleService.Validate(people))
             {
                 return BadRequest();
             }
