@@ -21,6 +21,7 @@ builder.Services.AddHttpClient<IPostService, PostService>(c =>
     c.BaseAddress = new Uri(builder.Configuration["BaseUrlPost"]);
 });
 
+//EntityFramework
 builder.Services.AddDbContext<StoreContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("StoreConnection"));
