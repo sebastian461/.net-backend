@@ -15,12 +15,12 @@ namespace Backend.Controllers
     public class BeerController : ControllerBase
     {
         private IValidator<BeerInsertDto> _beerInsertValidator;
-        private IBeerService _beerService;
+        private ICommonService<BeerDto, BeerInsertDto, BeerUpdateDto> _beerService;
 
         public BeerController
             (
                 IValidator<BeerInsertDto> beerInsertValidator,
-                IBeerService beerService
+                [FromKeyedServices("beerService")]ICommonService<BeerDto, BeerInsertDto, BeerUpdateDto> beerService
             )
         {
             _beerInsertValidator = beerInsertValidator;

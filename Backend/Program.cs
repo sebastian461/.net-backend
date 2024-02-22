@@ -18,7 +18,7 @@ builder.Services.AddKeyedScoped<IRandomService, RandomService>("randomScoped");
 builder.Services.AddKeyedTransient<IRandomService, RandomService>("randomTransient");
 
 builder.Services.AddScoped<IPostService, PostService>();
-builder.Services.AddScoped<IBeerService, BeerService>();
+builder.Services.AddKeyedScoped<ICommonService<BeerDto, BeerInsertDto, BeerUpdateDto>, BeerService>("beerService");
 
 builder.Services.AddHttpClient<IPostService, PostService>(c =>
 {

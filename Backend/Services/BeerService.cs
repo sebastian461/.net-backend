@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Backend.Services
 {
-    public class BeerService : IBeerService
+    public class BeerService : ICommonService<BeerDto, BeerInsertDto, BeerUpdateDto>
     {
         private StoreContext _context;
 
