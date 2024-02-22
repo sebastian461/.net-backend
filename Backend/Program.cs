@@ -1,5 +1,7 @@
+using Backend.Automappers;
 using Backend.DTOs;
 using Backend.Models;
+using Backend.Repository;
 using Backend.Services;
 using Backend.Validators;
 using FluentValidation;
@@ -18,11 +20,15 @@ builder.Services.AddKeyedScoped<IRandomService, RandomService>("randomScoped");
 builder.Services.AddKeyedTransient<IRandomService, RandomService>("randomTransient");
 
 builder.Services.AddScoped<IPostService, PostService>();
+builder.Services.AddKeyedScoped<ICommonService<BeerDto, BeerInsertDto, BeerUpdateDto>, BeerService>("beerService");
 
 builder.Services.AddHttpClient<IPostService, PostService>(c =>
 {
     c.BaseAddress = new Uri(builder.Configuration["BaseUrlPost"]);
 });
+
+//Repository
+builder.Services.AddScoped<IRepository<Beer>, BeerRepository>();
 
 //EntityFramework
 builder.Services.AddDbContext<StoreContext>(options =>
@@ -32,6 +38,9 @@ builder.Services.AddDbContext<StoreContext>(options =>
 
 //Validators
 builder.Services.AddScoped<IValidator<BeerInsertDto>, BeerInsertValidator>();
+
+//Mappers
+builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
